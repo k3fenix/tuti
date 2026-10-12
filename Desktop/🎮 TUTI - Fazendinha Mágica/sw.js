@@ -1,18 +1,15 @@
-// Service Worker para PWA Offline & Instalável (Android, iOS, PC, Mac, Tablet)
-const CACHE_NAME = 'tuti-fazendinha-v1';
+// Service Worker para TUTI: Jogo de Plataforma 2D (PWA Offline & Instalável)
+const CACHE_NAME = 'tuti-adventure-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './style.css',
   './app.js',
   './game-engine.js',
-  './farm.js',
-  './animals.js',
   './shop.js',
   './achievements.js',
   './audio.js',
   './storage.js',
-  './supabase.js',
   './manifest.json'
 ];
 
