@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TUTI 🎮</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1E40AF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TUTI">
+  
+  <!-- Fontes Google estilo infantil kawaii/Ghibli -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Estilos Principais -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Container do Jogo (Mobile-First Responsivo) -->
+  <div id="game-app">
+    
+    <!-- Top Bar Global HUD (Moedas, Nível, XP, Som) -->
+    <header id="top-hud">
+      <div class="hud-left">
+        <div class="player-badge" onclick="App.showScreen('profile')">
+          <div class="avatar-mini-ring">
+            <span id="hud-avatar-icon">👦</span>
+          </div>
+          <div class="player-mini-info">
+            <span id="hud-player-name">Tuti</span>
+            <div class="xp-bar-container">
+              <div id="hud-xp-fill" style="width: 35%"></div>
+            </div>
+          </div>
+          <span class="level-pill" id="hud-level-pill">Nv. 1</span>
+        </div>
+      </div>
+
+      <div class="hud-right">
+        <!-- Moedas -->
+        <div class="coin-pill">
+          <span class="coin-icon">🪙</span>
+          <span id="hud-coins" class="coin-count">100</span>
+          <button class="add-coin-btn" onclick="App.showToast('Colete moedas pelas fases para comprar skins na loja!', 'info')">+</button>
+        </div>
+
+        <!-- Botões de Ação Rápida -->
+        <div class="hud-buttons">
+          <button id="btn-open-wardrobe" class="circle-icon-btn wardrobe-btn" title="Vestiário / Loja de Roupas" onclick="App.showScreen('shop')">
+            <i class="fa-solid fa-shirt"></i>
+          </button>
+          <button id="btn-refresh-page" class="circle-icon-btn refresh-btn" title="Atualizar / Recarregar Jogo" onclick="window.location.reload()">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
+          <button id="btn-fullscreen-toggle" class="circle-icon-btn" title="Tela Cheia (Expandir)">
+            <i class="fa-solid fa-expand"></i>
+          </button>
+          <button id="btn-audio-toggle" class="circle-icon-btn" title="Ligar/Desligar Som">
+            <i class="fa-solid fa-volume-high"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ÁREA DE TELAS (CONTAINER PRINCIPAL) -->
+    <main id="screens-container">
+
+      <!-- ================= 1. TELA: SPLASH / LOGIN ================= -->
+      <section id="screen-splash" class="game-screen active">
+        <div class="sky-clouds-anim">
+          <div class="cloud cloud-1">☁️</div>
+          <div class="cloud cloud-2">☁️</div>
+          <div class="cloud cloud-3">⛅</div>
+          <div class="floating-sun">☀️</div>
+        </div>
+
+        <div class="splash-content">
+          <div class="logo-box">
+            <h1 class="game-title">TUTI</h1>
+            <div class="title-sparkles">⭐ 💎 🪙 👑</div>
+          </div>
+
+          <div class="splash-card">
+            <div class="avatar-hero-display">
+              <div class="hero-character-preview">
+                <span class="hero-emoji">👦</span>
+              </div>
+            </div>
+            
+            <div class="name-input-group">
+              <label for="splash-player-name">Qual o seu nome, aventureiro(a)?</label>
+              <input type="text" id="splash-player-name" placeholder="Digite seu nome..." value="Tuti" maxlength="15">
+            </div>
+
+            <button id="btn-start-game" class="btn-bubble btn-primary btn-huge pulse-btn">
+              <i class="fa-solid fa-play"></i> JOGAR AGORA
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. TELA: HOME / MENU DE AVENTURA ================= -->
+      <section id="screen-home" class="game-screen">
+        <div class="adventure-hero-banner">
+          <div class="hero-floating-elements">
+            <span class="hero-sparkle">✨</span>
+            <span class="hero-star">⭐</span>
+            <span class="hero-trophy">🏆</span>
+          </div>
+          <div class="hero-title-box">
+            <h2>Mundo das Aventuras 🗺️</h2>
+            <p>Corra, pule e colete todas as estrelas e moedas mágicas!</p>
+          </div>
+          <button class="btn-bubble btn-primary btn-huge pulse-btn" onclick="App.showScreen('level-select')">
+            <i class="fa-solid fa-play"></i> ESCOLHER FASE
+          </button>
+        </div>
+
+        <div class="hub-action-grid adventure-focused-grid">
+          <button class="hub-card-btn play-card" onclick="App.showScreen('level-select')">
+            <div class="card-icon-wrap"><i class="fa-solid fa-map-location-dot"></i></div>
+            <div class="card-text">
+              <h3>Fases da Jornada</h3>
+              <p>7 Fases Épicas Desafiadoras</p>
+            </div>
+            <span class="star-badge" id="hub-total-stars-badge">⭐ 0/21</span>
+          </button>
+
+          <button class="hub-card-btn shop-card" onclick="App.showScreen('shop')">
+            <div class="card-icon-wrap"><i class="fa-solid fa-shirt"></i></div>
+            <div class="card-text">
+              <h3>Loja do Herói</h3>
+              <p>Roupas, Botas e Poderes</p>
+            </div>
+          </button>
+
+          <button class="hub-card-btn profile-card" onclick="App.showScreen('profile')">
+            <div class="card-icon-wrap"><i class="fa-solid fa-trophy"></i></div>
+            <div class="card-text">
+              <h3>Troféus & Recordes</h3>
+              <p>Conquistas e Estatísticas</p>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= 3. TELA: SELEÇÃO DE FASES ================= -->
+      <section id="screen-level-select" class="game-screen">
+        <div class="screen-header">
+          <button class="btn-back" onclick="App.showScreen('home')"><i class="fa-solid fa-arrow-left"></i></button>
+          <h2>Mapa das Aventuras</h2>
+          <div class="header-space"></div>
+        </div>
+
+        <div class="level-track-container" id="levels-list">
+          <!-- Gerado dinamicamente no JS -->
+        </div>
+      </section>
+
+      <!-- ================= 4. TELA: GAMEPLAY (PLATAFORMA 2D CANVAS 1920x1080) ================= -->
+      <section id="screen-gameplay" class="game-screen">
+        <!-- Canvas para renderizar o motor de física e plataformas -->
+        <div class="canvas-wrap">
+          <canvas id="platform-canvas" width="1920" height="1080"></canvas>
+          
+          <!-- HUD durante a fase -->
+          <div class="in-game-hud">
+            <div class="ig-top-row">
+              <div class="ig-nav-shortcuts">
+                <button class="circle-icon-btn in-game-nav-btn ig-btn-map" title="Voltar ao Mapa das Fases" onclick="App.showScreen('level-select')">
+                  <i class="fa-solid fa-map-location-dot"></i>
+                  <span class="ig-btn-label">Mapa</span>
+                </button>
+                <button class="circle-icon-btn in-game-nav-btn ig-btn-shop wardrobe-btn" title="Ir para a Loja / Comprar Roupas & Skins" onclick="App.showScreen('shop')">
+                  <i class="fa-solid fa-shirt"></i>
+                  <span class="ig-btn-label">Loja</span>
+                </button>
+                <button class="btn-pause" title="Pausar / Retomar Jogo" onclick="GameEngine.togglePause()">
+                  <i class="fa-solid fa-pause"></i>
+                </button>
+              </div>
+
+              <div class="ig-phase-info">
+                <span id="ig-phase-name">Fase 1: The Beginning</span>
+              </div>
+
+              <div class="ig-stats">
+                <div class="ig-health-pill" id="ig-health-pill" title="Vida de Tuti">
+                  <div class="health-heart-icon">❤️</div>
+                  <div class="health-bar-bg">
+                    <div id="ig-health-fill" class="health-bar-fill hp-green" style="width: 100%;"></div>
+                  </div>
+                  <span id="ig-health-text" class="health-label">3/3</span>
+                </div>
+                <span class="ig-pill"><i class="fa-solid fa-coins"></i> <b id="ig-coins">0</b></span>
+                <span class="ig-pill"><i class="fa-solid fa-stopwatch"></i> <b id="ig-timer">00:00</b></span>
+              </div>
+            </div>
+
+            <!-- Power-up indicators -->
+            <div class="ig-active-powerups" id="ig-powerups"></div>
+          </div>
+
+          <!-- Controles Mobile / On-Screen Touch -->
+          <div class="mobile-controls-layer" id="touch-controls">
+            <div class="touch-dpad">
+              <button class="touch-btn touch-btn-left" id="btn-touch-left" data-action="left">◀</button>
+              <button class="touch-btn touch-btn-right" id="btn-touch-right" data-action="right">▶</button>
+            </div>
+            <div class="touch-actions">
+              <button class="touch-btn touch-btn-jump" id="btn-touch-jump" data-action="jump">PULAR ⬆</button>
+            </div>
+          </div>
+
+          <!-- Overlay de Vitória / Fim de Fase -->
+          <div id="game-win-overlay" class="modal-backdrop hidden">
+            <div class="modal-card star-celebration">
+              <h2>🎉 FASE CONCLUÍDA!</h2>
+              <div class="stars-awarded" id="win-stars-icons">
+                <span class="star-icon glow">⭐</span>
+                <span class="star-icon glow">⭐</span>
+                <span class="star-icon">⭐</span>
+              </div>
+              <div class="win-summary-grid">
+                <div><span>Tempo:</span> <strong id="win-time-val">00:45</strong></div>
+                <div><span>Moedas Coletadas:</span> <strong id="win-coins-val">+35</strong></div>
+                <div><span>XP Ganho:</span> <strong id="win-xp-val">+50 XP</strong></div>
+              </div>
+              <div class="win-buttons">
+                <button class="btn-bubble btn-secondary" onclick="GameEngine.restartLevel()"><i class="fa-solid fa-rotate-right"></i> Repetir</button>
+                <button class="btn-bubble btn-primary" onclick="App.showScreen('level-select')"><i class="fa-solid fa-map"></i> Mapa</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overlay de Game Over -->
+          <div id="game-over-overlay" class="modal-backdrop hidden">
+            <div class="modal-card gameover-card">
+              <h2>🍂 Ops! Tuti caiu!</h2>
+              <p>Não desanime! Toda aventura tem tropeços.</p>
+              <div class="win-buttons">
+                <button class="btn-bubble btn-primary" onclick="GameEngine.restartLevel()"><i class="fa-solid fa-rotate-right"></i> Tentar Novamente</button>
+                <button class="btn-bubble btn-secondary" onclick="App.showScreen('level-select')">Sair da Fase</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <!-- ================= 7. TELA: LOJA DE CUSTOMIZAÇÃO ================= -->
+      <section id="screen-shop" class="game-screen">
+        <div class="screen-header">
+          <button class="btn-back" onclick="GameEngine.running ? App.showScreen('gameplay') : App.showScreen('home')"><i class="fa-solid fa-arrow-left"></i></button>
+          <h2>Loja de Customização</h2>
+          <div class="header-space"></div>
+        </div>
+
+        <div class="shop-layout">
+          <!-- Preview ao vivo do Personagem com as roupas selecionadas -->
+          <div class="character-fitting-room">
+            <div class="avatar-mannequin-frame">
+              <div class="mannequin-glow"></div>
+              <div class="mannequin-display" id="fitting-avatar">
+                <span class="mannequin-hat" id="fit-hat">🧢</span>
+                <span class="mannequin-body" id="fit-body">👖</span>
+                <span class="mannequin-boots" id="fit-boots">🥾</span>
+              </div>
+            </div>
+            <div class="avatar-outfit-tags">
+              <span id="fit-summary-text">Roupa Clássica</span>
+            </div>
+          </div>
+
+          <!-- Abas de Itens da Loja -->
+          <div class="shop-tabs">
+            <button class="shop-tab active" data-category="clothes" onclick="Shop.setTab('clothes')">👕 Roupas & Chapéus</button>
+            <button class="shop-tab" data-category="boots" onclick="Shop.setTab('boots')">🥾 Calçados</button>
+          </div>
+
+          <!-- Grade de Itens da Loja -->
+          <div class="shop-items-grid" id="shop-items-container">
+            <!-- Itens gerados via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 8. TELA: PERFIL & CONQUISTAS ================= -->
+      <section id="screen-profile" class="game-screen">
+        <div class="screen-header">
+          <button class="btn-back" onclick="App.showScreen('home')"><i class="fa-solid fa-arrow-left"></i></button>
+          <h2>Perfil & Conquistas</h2>
+          <div class="header-space"></div>
+        </div>
+
+        <div class="profile-hero-card">
+          <div class="profile-big-avatar">
+            <span id="profile-avatar-emoji">👦</span>
+          </div>
+          <div class="profile-details">
+            <h3 id="profile-name-text">Tuti</h3>
+            <span class="rank-tag" id="profile-rank-tag">Aventureiro Lendário</span>
+            <div class="stats-mini-row">
+              <div>🗺️ 7 fases</div>
+              <div>⭐ <span id="stat-total-stars">0</span> estrelas</div>
+              <div>🪙 <span id="stat-total-earned">100</span> moedas</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="section-subtitle">Medalhas & Conquistas</h3>
+        <div class="achievements-grid" id="achievements-list">
+          <!-- Badges geradas pelo JS -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Barra Inferior de Navegação Fixa (Mobile Tab Bar Aventura) -->
+    <nav id="bottom-nav">
+      <button class="nav-item active" data-screen="home" onclick="App.showScreen('home')">
+        <i class="fa-solid fa-house"></i>
+        <span>Início</span>
+      </button>
+      <button class="nav-item" data-screen="level-select" onclick="App.showScreen('level-select')">
+        <i class="fa-solid fa-gamepad"></i>
+        <span>Aventura</span>
+      </button>
+      <button class="nav-item" data-screen="shop" onclick="App.showScreen('shop')">
+        <i class="fa-solid fa-shirt"></i>
+        <span>Loja</span>
+      </button>
+      <button class="nav-item" data-screen="profile" onclick="App.showScreen('profile')">
+        <i class="fa-solid fa-trophy"></i>
+        <span>Perfil</span>
+      </button>
+    </nav>
+
+    <!-- Toast Notifications Toast Container -->
+    <div id="toast-container"></div>
+  </div>
+
+  <!-- Scripts do Jogo Modularizados -->
+  <script src="audio.js"></script>
+  <script src="storage.js"></script>
+  <script src="game-engine.js"></script>
+  <script src="shop.js"></script>
+  <script src="achievements.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "tuti",
+  "version": "1.0.0",
+  "description": "TUTI: Jogo de Aventura e Plataforma 2D",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
