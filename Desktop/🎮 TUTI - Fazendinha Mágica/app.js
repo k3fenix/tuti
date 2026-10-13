@@ -16,6 +16,7 @@ const App = {
     Shop.init();
     Achievements.init();
     GameEngine.init();
+    if (typeof SupabaseManager !== "undefined") SupabaseManager.init();
 
     // 3. Atualizar HUD Global
     this.updateHud();

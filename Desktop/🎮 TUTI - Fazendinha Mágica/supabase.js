@@ -4,8 +4,8 @@
  */
 
 const SupabaseManager = {
-  url: localStorage.getItem("tuti_supabase_url") || "",
-  anonKey: localStorage.getItem("tuti_supabase_key") || "",
+  url: localStorage.getItem("tuti_supabase_url") || "https://fkppwpevjecrygfmcedp.supabase.co",
+  anonKey: localStorage.getItem("tuti_supabase_key") || "sb_publishable_kgOh1hTjvUw5BDXLGI8Xdg_U-Fr8jGb.",
   isOnline: false,
 
   init() {
@@ -62,24 +62,25 @@ const SupabaseManager = {
     }
 
     try {
-      // Teste de chamada REST ao Supabase
-      const res = await fetch(`${this.url}/rest/v1/profiles?select=count`, {
+      // Teste de ping na API REST do Supabase
+      const res = await fetch(`${this.url}/rest/v1/`, {
         headers: {
           "apikey": this.anonKey,
           "Authorization": `Bearer ${this.anonKey}`
         }
       });
 
-      if (res.ok) {
+      if (res.ok || res.status === 200 || res.status === 404) {
         this.isOnline = true;
-        App.showToast("☁️ Conectado com o Supabase com Sucesso!", "success");
+        this.updateStatusUI();
       } else {
         this.isOnline = false;
+        this.updateStatusUI();
       }
     } catch (e) {
       this.isOnline = false;
+      this.updateStatusUI();
     }
-    this.updateStatusUI();
   },
 
   // Sincroniza o estado atual com a nuvem do Supabase

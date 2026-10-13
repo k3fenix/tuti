@@ -61,6 +61,9 @@
           <button id="btn-fullscreen-toggle" class="circle-icon-btn" title="Tela Cheia (Expandir)">
             <i class="fa-solid fa-expand"></i>
           </button>
+          <button id="btn-supabase-sync" class="circle-icon-btn cloud-btn" title="Nuvem Supabase (Salvar & Sincronizar)" onclick="SupabaseManager.openModal()">
+            <i class="fa-solid fa-cloud"></i>
+          </button>
           <button id="btn-audio-toggle" class="circle-icon-btn" title="Ligar/Desligar Som">
             <i class="fa-solid fa-volume-high"></i>
           </button>
@@ -344,11 +347,39 @@
 
     <!-- Toast Notifications Toast Container -->
     <div id="toast-container"></div>
+
+    <!-- Modal Supabase Cloud Sync -->
+    <div id="supabase-modal" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>☁️ Nuvem Supabase</h3>
+          <button class="modal-close-btn" onclick="SupabaseManager.closeModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <p id="supabase-status" class="supabase-status-text">
+            <span class="status-indicator offline"></span> Verificando conexão...
+          </p>
+          <div class="form-group">
+            <label>URL do Projeto Supabase:</label>
+            <input type="text" id="supabase-url" placeholder="https://xyz.supabase.co" class="input-text">
+          </div>
+          <div class="form-group">
+            <label>Chave Pública (Anon Key):</label>
+            <input type="password" id="supabase-anon-key" placeholder="sb_publishable_... ou eyJ..." class="input-text">
+          </div>
+          <div class="modal-actions-row">
+            <button class="btn btn-secondary" onclick="SupabaseManager.saveCredentials()">💾 Salvar Chaves</button>
+            <button class="btn btn-primary" onclick="SupabaseManager.syncNow()">🚀 Sincronizar Agora</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Scripts do Jogo Modularizados -->
   <script src="audio.js"></script>
   <script src="storage.js"></script>
+  <script src="supabase.js"></script>
   <script src="game-engine.js"></script>
   <script src="shop.js"></script>
   <script src="achievements.js"></script>
